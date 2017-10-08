@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+
+        </style>
+
+        <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">.
+    </head>
+    <body>
+        <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+
+        <script>
+                d3.text("data.csv", function(data) {
+                    var parsedCSV = d3.csv.parseRows(data);
+                    var columnsData  = parsedCSV[0];
+                    var rowData = parsedCSV.slice(1); 
+
+                    var table = d3.select("body")
+                        .append("table")
+                        .attr("id", "table_id")
+                        .attr("class", "display");
+
+                    var thead = table.append("thead"),
+                        tbody = table.append("tbody");
+
+                        thead.append("tr")
+                            .selectAll("th")
+                            .data(columnsData)
+                            .enter()
+                            .append("th")
+                                .text(function(c) {
+                                    return c;
+                                });
+
+                        tbody.selectAll("tr")
+                            .data(rowData).enter()
+                            .append("tr")
+
+                            .selectAll("td")
+                                .data(function(d) { return d; }).enter()
+                                .append("td")
+                                .text(function(d) { return d; });
+
+                    $('#table_id').DataTable();
+
+                });
+
+        </script>
+    </body>
+</html>
